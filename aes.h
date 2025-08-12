@@ -85,7 +85,10 @@ void AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);
 //        no IV should ever be reused with the same key 
 void AES_CTR_xcrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);
 
-#endif // #if defined(CTR) && (CTR == 1)
+#endif // #if defined(CTR) && (CTR == 1
 
+size_t AES_size_pkcs7(size_t len);
+size_t AES_pad_pkcs7(uint8_t* buf,size_t len);
+size_t AES_unpad_pkcs7(uint8_t* buf,size_t len);
 
 #endif // _AES_H_

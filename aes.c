@@ -570,3 +570,26 @@ void AES_CTR_xcrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
 
 #endif // #if defined(CTR) && (CTR == 1)
 
+size_t AES_size_pkcs7(size_t len)
+{
+    return (len + (AES_BLOCKLEN - 1)) & (~(AES_BLOCKLEN - 1));
+}
+
+size_t AES_pad_pkcs7(uint8_t *buf, size_t len)
+{
+    size_t pad = (len % AES_BLOCKLEN);
+    if (pad > 0) {
+        pad = AES_BLOCKLEN - pad;
+        memset(&buf[len],pad,pad);
+    }
+    return len + pad;
+}
+
+size_t AES_unpad_pkcs7(uint8_t *buf, size_t len)
+{
+    uint8_t pv = buf[len - 1];
+    for (int i = 0; i < pv; i++) {
+        if (buf[len - 1 - i] != pv) return len;
+    }
+    return len - pv;
+}
